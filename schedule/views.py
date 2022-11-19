@@ -27,3 +27,50 @@ def getSchedules(request):
 
     # Response takes a Python data type and converts it to a byte string JSON response or whatever response type you need
     return Response(data)
+
+@swagger_auto_schema(method='post', request_body=ScheduleSerializer)
+@api_view(['POST'])
+def createCustomer(request):
+    serializer = ScheduleSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@swagger_auto_schema(method='put', request_body=ScheduleSerializer)
+@api_view(['PUT'])
+def updateCustomer(request, pk):
+    body = request.data
+    data = []
+
+    try:
+        instance = Schedule.objects.get(id=pk)
+    except:
+        data["error"] = "Schedule not found"
+        return Response(data)
+    
+    serializer = ScheduleSerializer(instance, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["DELETE"])
+def deleteCustomer(request, pk):
+    data = {}
+
+    try:
+        instance = Schedule.objects.get(id=pk)
+    except:
+        data["error"] = "Schedule not found"
+        return Response(data)
+
+    if instance:
+        instance.delete()
+        data["success"] = "Schedule deleted"
+
+    return Response(data)
