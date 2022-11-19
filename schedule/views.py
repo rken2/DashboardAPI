@@ -30,7 +30,7 @@ def getSchedules(request):
 
 @swagger_auto_schema(method='post', request_body=ScheduleSerializer)
 @api_view(['POST'])
-def createCustomer(request):
+def createSchedule(request):
     serializer = ScheduleSerializer(data=request.data)
 
     if serializer.is_valid():
@@ -41,7 +41,7 @@ def createCustomer(request):
 
 @swagger_auto_schema(method='put', request_body=ScheduleSerializer)
 @api_view(['PUT'])
-def updateCustomer(request, pk):
+def updateSchedule(request, pk):
     body = request.data
     data = []
 
@@ -60,7 +60,7 @@ def updateCustomer(request, pk):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["DELETE"])
-def deleteCustomer(request, pk):
+def deleteSchedule(request, pk):
     data = {}
 
     try:
