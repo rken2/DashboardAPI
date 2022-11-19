@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'customer',
     'order',
     'schedule',
+    'kanban'
 ]
 
 MIDDLEWARE = [
